@@ -28,30 +28,40 @@
                 dataType: 'json',
                 success: function (result) {
                     if (result.status == 1) {
-                        <?php if ($currentCategory = $block->getCurrentCategory()): ?>
-                        ScarabQueue.push(['category', '<?php echo $currentCategory; ?>']);
-                        <?php endif; ?>
-
-                        <?php if ($currentProduct = $block->getCurrentProductSku()): ?>
-                        ScarabQueue.push(['view', '<?php echo $currentProduct; ?>']);
-                        <?php endif; ?>
-
-                        <?php if ($searchResult = $block->getSearchResult()): ?>
-                        ScarabQueue.push(['searchTerm', '<?php echo $searchResult; ?>']);
-                        <?php endif; ?>
-
-                        <?php if ($storeCode = $block->getStoreCode()): ?>
-                        ScarabQueue.push(['availabilityZone', '<?php echo $storeCode ?>']);
-                        <?php endif; ?>
-
                         jQuery('#webextend-code').html(result.content);
-                        ScarabQueue.push(['go']);
                     }
                 },
                 error: function (xhr, textStatus, thrownError) {
                     console.log("Emarsys WebExtend Ajax Error: " + thrownError);
                 }
             });
+
+            <?php if (false): ?>
+                var miniCart = jQuery('[data-block=\'minicart\']');
+                miniCart.on('cartUpdated', function () {
+                    jQuery.ajax({
+                        url: '<?php echo $block->getAjaxUpdateCartUrl() ?>',
+                        data: {
+                            'unique_key': Math.random() * Math.random(),
+                            'full_action_name': '<?php echo $block->getPageHandle(); ?>'
+                        },
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result.status == 1) {
+                                jQuery('#webextend-code').html(result.content);
+                            }
+                        },
+                        error: function (xhr, textStatus, thrownError) {
+                            console.log("Emarsys WebExtend Ajax Error: " + thrownError);
+                        }
+                    });
+                });
+            <?php endif; ?>
         });
     </script>
 <?php endif; ?>
+
+
+
+

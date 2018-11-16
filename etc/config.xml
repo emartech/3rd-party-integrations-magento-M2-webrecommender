@@ -11,12 +11,12 @@
     <default>
         <web_extend>
             <recommended_product_pages>
-                <recommended_home_page>HOME_||simple-tmpl</recommended_home_page>
-                <recommended_category_page>PERSONAL||personal-template</recommended_category_page>
-                <recommended_product_page>RELATED||related-template</recommended_product_page>
-                <recommended_cart_page>ALSO_BOUGHT||alsobought-template</recommended_cart_page>
-                <recommended_order_thankyou_page>PERSONAL||personal-template</recommended_order_thankyou_page>
-                <recommended_nosearch_result_page>SEARCH||search-template</recommended_nosearch_result_page>
+                <recommended_home_page>||</recommended_home_page>
+                <recommended_category_page>||</recommended_category_page>
+                <recommended_product_page>||</recommended_product_page>
+                <recommended_cart_page>||</recommended_cart_page>
+                <recommended_order_thankyou_page>||</recommended_order_thankyou_page>
+                <recommended_nosearch_result_page>||</recommended_nosearch_result_page>
             </recommended_product_pages>
             <javascript_tracking>
                 <testmode>0</testmode>
@@ -26,5 +26,6 @@
                 <tax_included>0</tax_included>
             </javascript_tracking>
         </web_extend>
+        <track_ajax_cart>1</track_ajax_cart>
     </default>
 </config>
