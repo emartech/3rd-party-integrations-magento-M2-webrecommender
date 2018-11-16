@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Emartech
+ * @package    Emartech_EmarsysRecommender
+ * @copyright  Copyright (c) 2017 Emarsys. (http://www.emarsys.net/)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <web_extend>
+            <recommended_product_pages>
+                <recommended_home_page>||</recommended_home_page>
+                <recommended_category_page>||</recommended_category_page>
+                <recommended_product_page>||</recommended_product_page>
+                <recommended_cart_page>||</recommended_cart_page>
+                <recommended_order_thankyou_page>||</recommended_order_thankyou_page>
+                <recommended_nosearch_result_page>||</recommended_nosearch_result_page>
+            </recommended_product_pages>
+            <javascript_tracking>
+                <testmode>0</testmode>
+                <identityregistered>email_address</identityregistered>
+                <uniqueidentifier>sku</uniqueidentifier>
+                <use_base_currency>0</use_base_currency>
+                <tax_included>0</tax_included>
+            </javascript_tracking>
+        </web_extend>
+        <track_ajax_cart>1</track_ajax_cart>
+    </default>
+</config>
