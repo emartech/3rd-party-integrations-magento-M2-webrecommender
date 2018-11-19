@@ -35,29 +35,6 @@
                     console.log("Emarsys WebExtend Ajax Error: " + thrownError);
                 }
             });
-
-            <?php if (false): ?>
-                var miniCart = jQuery('[data-block=\'minicart\']');
-                miniCart.on('cartUpdated', function () {
-                    jQuery.ajax({
-                        url: '<?php echo $block->getAjaxUpdateCartUrl() ?>',
-                        data: {
-                            'unique_key': Math.random() * Math.random(),
-                            'full_action_name': '<?php echo $block->getPageHandle(); ?>'
-                        },
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function (result) {
-                            if (result.status == 1) {
-                                jQuery('#webextend-code').html(result.content);
-                            }
-                        },
-                        error: function (xhr, textStatus, thrownError) {
-                            console.log("Emarsys WebExtend Ajax Error: " + thrownError);
-                        }
-                    });
-                });
-            <?php endif; ?>
         });
     </script>
 <?php endif; ?>
