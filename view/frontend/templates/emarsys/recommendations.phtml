@@ -12,27 +12,29 @@
     <script>ScarabQueue.push(['availabilityZone', '<?php echo $block->getStoreCode() ?>']);</script>
 <?php endif; ?>
 
-<!-- This code will embeded on all pages -->
-
 <?php $pageHandleData = $block->getPageHandleStatus(); ?>
-<?php /* Recommendations Script  */ ?>
 <?php if ($pageHandleData['status'] == 'Valid' && $pageHandleData['logic'] != ''): ?>
-
     <?php if ($pageHandleData['logic'] != 'HOME_'): ?>
+        <div id="dept1"></div>
+        <div id="dept2"></div>
+        <div id="dept3"></div>
+        <div id="dept4"></div>
+        <div id="dept5"></div>
+        <div id="dept6"></div>
+        <div id="dept7"></div>
+        <div id="dept8"></div>
+        <div id="dept9"></div>
+        <div id="dept10"></div>
         <?php if ($pageHandleData['logic'] == 'DEPARTMENT'): ?>
-            <div id="dept1"></div>
-            <div id="dept2"></div>
-            <div id="dept3"></div>
-            <div id="dept10"></div>
+
             <script type="text/html" id="<?php echo $pageHandleData['templateId']; ?>">
                 <![CDATA[
                 <h4>{{=SC.title}}</h4>
                 {{ for (var i=0; i < SC.page.products.length; i++) { }}
                 {{ var p = SC.page.products[i]; }}
                 <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
-                  <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image"
-                                                             title="{{=p.title}}"></a>
-              </span>
+                    <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image" title="{{=p.title}}"></a>
+                </span>
                 {{ } }}
                 ]]>
             </script>
@@ -63,11 +65,11 @@
                     {{ for (var i=0; i < SC.page.products.length; i++) { }}
                     {{ var p = SC.page.products[i]; }}
                     <span data-scarabitem="{{= p.id }}" class="scarab-item">
-              <a href="{{= p.link }}">
-                  <img src="{{= p.image }}">
-                  {{= p.title }}
-              </a>
-          </span>
+                        <a href="{{= p.link }}">
+                            <img src="{{= p.image }}">
+                            {{= p.title }}
+                        </a>
+                    </span>
                     {{ } }}
                     <div class="scarab-next">▶</div>
                 </div>
@@ -81,7 +83,6 @@
                     templateId: '<?php echo $pageHandleData['templateId']; ?>',
                     limit: '6'
                 }]);
-
             </script>
             <div id="recommended-product-container">
                 <div id="recommended-product"></div>
@@ -107,7 +108,6 @@
             }
         </script>
 
-        <!-- HOME recommendations will be rendered in div#home1...div#home10 -->
         <div id="home1"></div>
         <div id="home2"></div>
         <div id="home3"></div>
@@ -125,8 +125,8 @@
             {{ for (var i=0; i < SC.page.products.length; i++) { }}
             {{ var p = SC.page.products[i]; }}
             <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
-          <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image" title="{{=p.title}}"></a>
-      </span>
+                <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image" title="{{=p.title}}"></a>
+            </span>
             {{ } }}
             ]]>
         </script>
