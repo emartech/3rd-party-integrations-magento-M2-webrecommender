@@ -26,6 +26,5 @@
                 <tax_included>0</tax_included>
             </javascript_tracking>
         </web_extend>
-        <track_ajax_cart>1</track_ajax_cart>
     </default>
 </config>
