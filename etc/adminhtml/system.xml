@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Emartech
+ * @package    Emartech_EmarsysRecommender
+ * @copyright  Copyright (c) 2018 Emarsys. (http://www.emarsys.net/)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="web_extend" translate="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Web Extend</label>
+            <tab>emarsys</tab>
+            <resource>Emartech_Emarsys::emarsys</resource>
+            <group id="recommended_product_pages" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Recommended product on pages</label>
+                <field id="recommended_home_page" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Home Page</label>
+                    <source_model>Emartech\EmarsysRecommender\Model\Config\Source\RecommendedProductOnHomePage</source_model>
+                </field>
+                <field id="recommended_category_page" translate="label comment" type="select" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Category Page</label>
+                    <source_model>Emartech\EmarsysRecommender\Model\Config\Source\RecommendedProductOnCategory</source_model>
+                </field>
+                <field id="recommended_product_page" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Product Detail Page</label>
+                    <source_model>Emartech\EmarsysRecommender\Model\Config\Source\RecommendedProductOnProduct</source_model>
+                </field>
+                <field id="recommended_cart_page" translate="label comment" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Cart Page</label>
+                    <source_model>Emartech\EmarsysRecommender\Model\Config\Source\RecommendedProductOnCart</source_model>
+                </field>
+                <field id="recommended_order_thankyou_page" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Order Thankyou Page</label>
+                    <source_model>Emartech\EmarsysRecommender\Model\Config\Source\RecommendedProductOnOrderThankYouPage</source_model>
+                </field>
+                <field id="recommended_nosearch_result_page" translate="label comment" type="select" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>No Search Result Page</label>
+                    <source_model>Emartech\EmarsysRecommender\Model\Config\Source\RecommendedProductOnSearchPage</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
