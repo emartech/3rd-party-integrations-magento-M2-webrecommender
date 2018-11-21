@@ -7,8 +7,10 @@
 namespace Emartech\EmarsysRecommender\Block;
 
 use Magento\Framework\App\Request\Http;
+use Magento\Framework\Registry;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Checkout\Model\CartFactory;
+use Magento\Catalog\Model\CategoryFactory;
 use Emartech\Emarsys\Block\Snippets;
 
 /**
@@ -48,25 +50,41 @@ class JavascriptTracking extends \Magento\Framework\View\Element\Template
     protected $snippets;
 
     /**
+     * @var Registry
+     */
+    protected $registry;
+
+    /**
+     * @var CategoryFactory
+     */
+    protected $categoryFactory;
+
+    /**
      * JavascriptTracking constructor.
      *
      * @param Context $context
+     * @param Registry $registry
      * @param Http $request
      * @param CartFactory $cartFactory
      * @param Snippets $snippets
+     * @param CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
         Context $context,
+        Registry $registry,
         Http $request,
         CartFactory $cartFactory,
         Snippets $snippets,
+        CategoryFactory $categoryFactory,
         array $data = []
     ) {
+        $this->registry = $registry;
         $this->storeManager = $context->getStoreManager();
         $this->_request = $request;
         $this->cartFactory = $cartFactory;
         $this->snippets = $snippets;
+        $this->categoryFactory = $categoryFactory;
         parent::__construct($context, $data);
     }
 
@@ -165,8 +183,7 @@ class JavascriptTracking extends \Magento\Framework\View\Element\Template
         ];
 
         if (array_key_exists($handle, $pageHandles)) {
-            $jsStatus = $this->getJsEnableStatusForAllPages();
-            if ($jsStatus == 1) {
+            if ($this->getJsEnableStatusForAllPages()) {
                 $path = $pageHandles[$handle];
                 $pageValue = $this->storeManager->getStore()->getConfig($path);
                 $pageData = explode('||', $pageValue);
@@ -236,4 +253,76 @@ class JavascriptTracking extends \Magento\Framework\View\Element\Template
         }
         return $this->storeManager->getStore()->getCode();
     }
+
+    /**
+     * Get Current Category
+     *
+     * @return string
+     */
+    public function getCurrentCategory()
+    {
+        $result = false;
+        try {
+            $category = $this->registry->registry('current_category');
+
+            if (isset($category) && $category != '') {
+                $categoryName = '';
+                $categoryPath = $category->getPath();
+                $categoryPathIds = explode('/', $categoryPath);
+                $childCats = [];
+                if (count($categoryPathIds) > 2) {
+                    $pathIndex = 0;
+                    foreach ($categoryPathIds as $categoryPathId) {
+                        if ($pathIndex <= 1) {
+                            $pathIndex++;
+
+                            continue;
+                        }
+                        $childCat = $this->categoryFactory->create()
+                            ->setStoreId($this->storeManager->getStore()->getId())
+                            ->load($categoryPathId);
+                        $childCats[] = $childCat->getName();
+                    }
+                    $categoryName = implode(" > ", $childCats);
+                }
+
+                $result = addcslashes($categoryName, "'");
+            }
+        } catch (\Exception $e) {
+            $this->_logger->critical($e->getMessage());
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get Current Product Sku
+     *
+     * @return string
+     */
+    public function getCurrentProductSku()
+    {
+        $result = false;
+        try {
+            $product = $this->registry->registry('current_product');
+            if (isset($product) && $product != '') {
+                $result = addslashes($product->getSku());
+            }
+        } catch (\Exception $e) {
+            $this->_logger->critical($e->getMessage());
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get Search Param
+     *
+     * @return bool|mixed
+     */
+    public function getSearchResult()
+    {
+        return $this->_request->getParam('q');
+    }
+
 }
