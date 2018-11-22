@@ -8,22 +8,6 @@
 /** @var \Emartech\EmarsysRecommender\Block\JavascriptTracking $block */
 ?>
 
-<?php if ($currentCategory = $block->getCurrentCategory()): ?>
-    <script>ScarabQueue.push(['category', '<?php echo $currentCategory; ?>']);</script>
-<?php endif; ?>
-
-<?php if ($currentProduct = $block->getCurrentProductSku()): ?>
-    <script>ScarabQueue.push(['view', '<?php echo $currentProduct; ?>']);</script>
-<?php endif; ?>
-
-<?php if ($searchResult = $block->getSearchResult()): ?>
-    <script>ScarabQueue.push(['searchTerm', '<?php echo $searchResult; ?>']);</script>
-<?php endif; ?>
-
-<?php if ($storeCode = $block->getStoreCode()): ?>
-    <script>ScarabQueue.push(['availabilityZone', '<?php echo $storeCode ?>']);</script>
-<?php endif; ?>
-
 <?php $pageHandleData = $block->getPageHandleStatus(); ?>
 <?php if ($pageHandleData['status'] == 'Valid' && $pageHandleData['logic'] != ''): ?>
     <?php if ($pageHandleData['logic'] != 'HOME_'): ?>

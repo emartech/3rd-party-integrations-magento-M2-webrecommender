@@ -12,9 +12,7 @@
         <referenceContainer name="content.bottom">
             <container name="emarsys.wrapper" htmlTag="div" htmlClass="emarsys-wrapper" after="-" >
                 <block class="Emartech\EmarsysRecommender\Block\JavascriptTracking" template="Emartech_EmarsysRecommender::emarsys/webextend.phtml" name="webextend" after="-">
-                    <block class="Emartech\EmarsysRecommender\Block\JavascriptTracking" template="Emartech_EmarsysRecommender::emarsys/javascripttracking.phtml" name="emarsys.javascripttracking" >
-                        <block class="Emartech\EmarsysRecommender\Block\JavascriptTracking" template="Emartech_EmarsysRecommender::emarsys/recommendations.phtml" name="emarsys.recommendations" />
-                    </block>
+                    <block class="Emartech\EmarsysRecommender\Block\JavascriptTracking" template="Emartech_EmarsysRecommender::emarsys/recommendations.phtml" name="emarsys.recommendations" />
                 </block>
             </container>
         </referenceContainer>

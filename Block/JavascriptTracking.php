@@ -50,7 +50,7 @@ class JavascriptTracking extends \Magento\Framework\View\Element\Template
     protected $snippets;
 
     /**
-     * @var Registry
+     * @var \Magento\Framework\Registry
      */
     protected $registry;
 
@@ -211,16 +211,6 @@ class JavascriptTracking extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * Get Ajax Update Url
-     *
-     * @return string
-     */
-    public function getAjaxUpdateCartUrl()
-    {
-        return $this->getUrl('emarsys/index/ajaxUpdateCart', ['_secure' => true]);
-    }
-
-    /**
      * Get Merchant Id from DB
      *
      * @return string
@@ -265,7 +255,7 @@ class JavascriptTracking extends \Magento\Framework\View\Element\Template
         try {
             $category = $this->registry->registry('current_category');
 
-            if (isset($category) && $category != '') {
+            if ($category && $category->getId()) {
                 $categoryName = '';
                 $categoryPath = $category->getPath();
                 $categoryPathIds = explode('/', $categoryPath);
@@ -303,13 +293,10 @@ class JavascriptTracking extends \Magento\Framework\View\Element\Template
     public function getCurrentProductSku()
     {
         $result = false;
-        try {
-            $product = $this->registry->registry('current_product');
-            if (isset($product) && $product != '') {
-                $result = addslashes($product->getSku());
-            }
-        } catch (\Exception $e) {
-            $this->_logger->critical($e->getMessage());
+        $product = $this->registry->registry('current_product');
+
+        if ($product && $product->getId()) {
+            $result = addslashes('g/' . $product->getSku());
         }
 
         return $result;
