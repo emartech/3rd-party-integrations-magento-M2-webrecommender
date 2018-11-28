@@ -121,10 +121,7 @@
             {{ for (var i=0; i < SC.page.products.length; i++) { }}
             {{ var p = SC.page.products[i]; }}
             <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
-                <a href="{{=p.link}}" target="_blank">
-                    <img src="{{=p.image}}" class="rec-image" title="{{= p.title}}">
-                    {{= p.title }}
-                </a>
+                <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image" title="{{= p.title}}"></a>
             </span>
             {{ } }}
             ]]>
