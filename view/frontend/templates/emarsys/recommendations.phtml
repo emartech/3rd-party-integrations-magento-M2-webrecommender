@@ -7,7 +7,7 @@
 
 /** @var \Emartech\EmarsysRecommender\Block\JavascriptTracking $block */
 ?>
-
+<script>ScarabQueue.push(["cart", [<?php echo $block->getCartItemsJsonData() ?>]]);</script>
 <?php $pageHandleData = $block->getPageHandleStatus(); ?>
 <?php if ($pageHandleData['status'] == 'Valid' && $pageHandleData['logic'] != ''): ?>
     <?php if ($pageHandleData['logic'] != 'HOME_'): ?>
@@ -29,9 +29,11 @@
                 {{ for (var i=0; i < SC.page.products.length; i++) { }}
                 {{ var p = SC.page.products[i]; }}
                 <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
-                  <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image"
-                                                             title="{{=p.title}}"></a>
-              </span>
+                    <a href="{{=p.link}}" target="_blank">
+                        <img src="{{=p.image}}" class="rec-image" title="{{= p.title}}">
+                        {{= p.title }}
+                    </a>
+                </span>
                 {{ } }}
                 ]]>
             </script>
@@ -63,7 +65,7 @@
                     {{ var p = SC.page.products[i]; }}
                     <span data-scarabitem="{{= p.id }}" class="scarab-item">
                         <a href="{{= p.link }}">
-                            <img src="{{= p.image }}">
+                            <img src="{{= p.image }}" class="rec-image" title="{{= p.title}}">
                             {{= p.title }}
                         </a>
                     </span>
@@ -122,7 +124,10 @@
             {{ for (var i=0; i < SC.page.products.length; i++) { }}
             {{ var p = SC.page.products[i]; }}
             <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
-                <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image" title="{{=p.title}}"></a>
+                <a href="{{=p.link}}" target="_blank">
+                    <img src="{{=p.image}}" class="rec-image" title="{{= p.title}}">
+                    {{= p.title }}
+                </a>
             </span>
             {{ } }}
             ]]>
