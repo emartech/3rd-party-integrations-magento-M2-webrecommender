@@ -10,55 +10,8 @@
 <script>ScarabQueue.push(["cart", [<?php echo $block->getCartItemsJsonData() ?>]]);</script>
 <?php $pageHandleData = $block->getPageHandleStatus(); ?>
 <?php if ($pageHandleData['status'] == 'Valid' && $pageHandleData['logic'] != ''): ?>
-    <script type="text/javascript">
-        <![CDATA[
-        function localizePrice(SC) {
-            for (var i=0; i < SC.page.products.length; i++) {
-                SC['page']['products'][i].price_formatted = SC['page']['products'][i].price.toMoney(2, '.' , ',' ) ;
-            }
-        }
-
-        Number.prototype.toMoney = function(decimals, decimal_sep, thousands_sep) {
-            var n = this,
-                c = isNaN(decimals) ? 2 : Math.abs(decimals), //if decimal is zero we must take it, it means user does not want to show any decimal
-                d = decimal_sep || '.', //if no decimal separator is passed we use the dot as default decimal separator (we MUST use a decimal separator)
-
-                /*
-                according to [https://stackoverflow.com/questions/411352/how-best-to-determine-if-an-argument-is-not-sent-to-the-javascript-function]
-                the fastest way to check for not defined parameter is to use typeof value === 'undefined'
-                rather than doing value === undefined.
-                */
-                t = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep, //if you don't want to use a thousands separator you can pass empty string as thousands_sep value
-
-                sign = (n < 0) ? '-' : '',
-
-                //extracting the absolute value of the integer part of the number and converting to string
-                i = parseInt(n = Math.abs(n).toFixed(c)) + '',
-
-                j = ((j = i.length) > 3) ? j % 3 : 0;
-            return sign + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
-        }
-        ]]>
-    </script>
     <?php if ($pageHandleData['logic'] != 'HOME_'): ?>
         <?php if ($pageHandleData['logic'] == 'DEPARTMENT'): ?>
-            <script type="text/html" id="<?php echo $pageHandleData['templateId']; ?>">
-                <![CDATA[
-                {{ if (SC.page.products.length > 0) { }}
-                    <h4>{{=SC.title}}</h4>
-                    {{ for (var i=0; i < SC.page.products.length; i++) { }}
-                    {{ var p = SC.page.products[i]; }}
-                    <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
-                        <a href="{{=p.link}}" target="_blank">
-                            <img src="{{=p.image}}" class="rec-image" title="{{= p.title}}">
-                            {{= p.title }}
-                        </a>
-                        <span id="format_{{=i}}">{{=p.price_formatted}}</span>
-                    </span>
-                    {{ } }}
-                {{ } }}
-                ]]>
-            </script>
             <div id="dept1"></div>
             <div id="dept2"></div>
             <div id="dept3"></div>
@@ -69,93 +22,70 @@
             <div id="dept8"></div>
             <div id="dept9"></div>
             <div id="dept10"></div>
+            <script type="text/html" id="<?php echo $pageHandleData['templateId']; ?>">
+                <![CDATA[
+                <h4>{{=SC.title}}</h4>
+                {{ for (var i=0; i < SC.page.products.length; i++) { }}
+                {{ var p = SC.page.products[i]; }}
+                <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
+                    <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image" title="{{= p.title}}"></a>
+                </span>
+                {{ } }}
+                ]]>
+            </script>
             <script>
                 for (var i = 1; i < 11; i++) {
                     ScarabQueue.push(['recommend', {
                         logic: 'DEPARTMENT_' + i,
                         limit: 5,
                         containerId: 'dept' + i,
-                        templateId: '<?php echo $pageHandleData['templateId']; ?>',
+                        templateId: 'simple-tmpl',
                         success: function (SC, render) {
                             if (SC.topicLocalized) {
                                 SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
-                                localizePrice(SC);
                                 render(SC);
                             }
                         }
                     }]);
                 }
             </script>
-        <?php endif; ?>
+        <?php endif; //if ($pageHandleData['logic'] == 'DEPARTMENT') ?>
 
         <?php if ($pageHandleData['logic'] != 'DEPARTMENT'): ?>
             <script type="text/html" id="<?php echo $pageHandleData['templateId']; ?>">
                 <![CDATA[
-                {{ if (SC.page.products.length > 0) { }}
+                {{ if (SC.page.products.length) { }}
                 <div class="scarab-itemlist">
                     <div class="scarab-prev">◀</div>
                     {{ for (var i=0; i < SC.page.products.length; i++) { }}
-                        {{ var p = SC.page.products[i]; }}
-                        <span data-scarabitem="{{= p.id }}" class="scarab-item">
-                            <a href="{{= p.link }}">
-                                <img src="{{= p.image }}" class="rec-image" title="{{= p.title}}">
-                                {{= p.title }}
-                            </a>
-                            <span id="format_{{=i}}">{{=p.price_formatted}}</span>
-                        </span>
+                    {{ var p = SC.page.products[i]; }}
+                    <span data-scarabitem="{{= p.id }}" class="scarab-item">
+                        <a href="{{= p.link }}">
+                            <img src="{{= p.image }}" class="rec-image" title="{{= p.title}}">
+                            {{= p.title }}
+                        </a>
+                    </span>
                     {{ } }}
                     <div class="scarab-next">▶</div>
                 </div>
                 {{ } }}
                 ]]>
             </script>
-            <div id="recommended-product"></div>
             <script>
                 ScarabQueue.push(['recommend', {
                     logic: '<?php echo $pageHandleData["logic"]; ?>',
-                    limit: '6',
                     containerId: 'recommended-product',
                     templateId: '<?php echo $pageHandleData['templateId']; ?>',
-                    success: function (SC, render) {
-                        if (SC.topicLocalized) {
-                            SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
-                            localizePrice(SC);
-                            render(SC);
-                        }
-                    }
+                    limit: '6'
                 }]);
             </script>
-        <?php endif; ?>
-    <?php endif; ?>
+            <div id="recommended-product-container">
+                <div id="recommended-product"></div>
+            </div>
+        <?php endif; //if ($pageHandleData['logic'] != 'DEPARTMENT') ?>
+    <?php endif; //if ($pageHandleData['logic'] != 'HOME_') ?>
 
     <?php if ($pageHandleData['logic'] == "HOME_"): ?>
-        <script type="text/html" id="<?php echo $pageHandleData['templateId']; ?>">
-            <![CDATA[
-            {{ if (SC.page.products.length > 0) { }}
-                <h4>{{=SC.title}}</h4>
-                {{ for (var i=0; i < SC.page.products.length; i++) { }}
-                    {{ var p = SC.page.products[i]; }}
-                    <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
-                        <a href="{{=p.link}}" target="_blank">
-                            <img src="{{=p.image}}" class="rec-image" title="{{= p.title}}">
-                            {{= p.title }}
-                        </a>
-                        <span id="format_{{=i}}">{{=p.price_formatted}}</span>
-                    </span>
-                {{ } }}
-            {{ } }}
-            ]]>
-        </script>
-        <div id="home1"></div>
-        <div id="home2"></div>
-        <div id="home3"></div>
-        <div id="home4"></div>
-        <div id="home5"></div>
-        <div id="home6"></div>
-        <div id="home7"></div>
-        <div id="home8"></div>
-        <div id="home9"></div>
-        <div id="home10"></div>
         <script>
             for (var i = 1; i < 11; i++) {
                 ScarabQueue.push(['recommend', {
@@ -166,14 +96,36 @@
                     success: function (SC, render) {
                         if (SC.topicLocalized) {
                             SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
-                            localizePrice(SC);
                             render(SC);
                         }
                     }
                 }]);
             }
         </script>
-    <?php endif; ?>
+
+        <div id="home1"></div>
+        <div id="home2"></div>
+        <div id="home3"></div>
+        <div id="home4"></div>
+        <div id="home5"></div>
+        <div id="home6"></div>
+        <div id="home7"></div>
+        <div id="home8"></div>
+        <div id="home9"></div>
+        <div id="home10"></div>
+
+        <script type="text/html" id="simple-tmpl">
+            <![CDATA[
+            <h4>{{=SC.title}}</h4>
+            {{ for (var i=0; i < SC.page.products.length; i++) { }}
+            {{ var p = SC.page.products[i]; }}
+            <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
+                <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image" title="{{= p.title}}"></a>
+            </span>
+            {{ } }}
+            ]]>
+        </script>
+    <?php endif; //if ($pageHandleData['logic'] == "HOME_") ?>
     <style>
         .rec-item {
             text-align: center;
@@ -234,4 +186,4 @@
             opacity: 0.4;
         }
     </style>
-<?php endif; ?>
+<?php endif; //if ($pageHandleData['status'] == 'Valid') ?>
