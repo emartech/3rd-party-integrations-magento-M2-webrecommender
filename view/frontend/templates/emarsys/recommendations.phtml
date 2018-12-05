@@ -68,7 +68,7 @@
                         logic: 'DEPARTMENT_' + i,
                         limit: 5,
                         containerId: 'dept' + i,
-                        templateId: 'simple-tmpl',
+                        templateId: '<?php echo $pageHandleData['templateId']; ?>',
                         success: function (SC, render) {
                             if (SC.topicLocalized) {
                                 SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
@@ -82,27 +82,24 @@
         <?php endif; ?>
 
         <?php if ($pageHandleData['logic'] != 'DEPARTMENT'): ?>
+            <div id="recommended-product"></div>
             <script type="text/html" id="<?php echo $pageHandleData['templateId']; ?>">
                 <![CDATA[
                 {{ if (SC.page.products.length) { }}
                 <div class="scarab-itemlist">
                     <div class="scarab-prev">◀</div>
                     {{ for (var i=0; i < SC.page.products.length; i++) { }}
-                        {{ var p = SC.page.products[i]; }}
-                        <span data-scarabitem="{{= p.id }}" class="scarab-item">
-                            <a href="{{= p.link }}">
-                                <img src="{{= p.image }}" class="rec-image" title="{{= p.title}}">
-                                {{= p.title }}
-                            </a>
-                        </span>
-                        <span id="format_{{=i}}">{{=p.price_formatted}}</span>
+                    {{ var p = SC.page.products[i]; }}
+                    <span data-scarabitem="{{= p.id }}" class="scarab-item">
+                        <a href="{{= p.link }}"><img src="{{= p.image }}" class="rec-image" title="{{= p.title}}">{{= p.title }}</a>
+                    </span>
+                    <span id="format_{{=i}}">{{=p.price_formatted}}</span>
                     {{ } }}
                     <div class="scarab-next">▶</div>
                 </div>
                 {{ } }}
                 ]]>
             </script>
-            <div id="recommended-product"></div>
             <script>
                 ScarabQueue.push(['recommend', {
                     logic: '<?php echo $pageHandleData["logic"]; ?>',
@@ -132,6 +129,18 @@
         <div id="home8"></div>
         <div id="home9"></div>
         <div id="home10"></div>
+        <script type="text/html" id="<?php echo $pageHandleData['templateId'] ?>">
+            <![CDATA[
+            <h4>{{=SC.title}}</h4>
+            {{ for (var i=0; i < SC.page.products.length; i++) { }}
+            {{ var p = SC.page.products[i]; }}
+            <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
+                <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image" title="{{= p.title}}"></a>
+            </span>
+            <span id="format_{{=i}}">{{=p.price_formatted}}</span>
+            {{ } }}
+            ]]>
+        </script>
         <script>
             for (var i = 1; i < 11; i++) {
                 ScarabQueue.push(['recommend', {
@@ -148,18 +157,6 @@
                     }
                 }]);
             }
-        </script>
-        <script type="text/html" id="simple-tmpl">
-            <![CDATA[
-            <h4>{{=SC.title}}</h4>
-            {{ for (var i=0; i < SC.page.products.length; i++) { }}
-            {{ var p = SC.page.products[i]; }}
-            <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
-                <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image" title="{{= p.title}}"></a>
-            </span>
-            <span id="format_{{=i}}">{{=p.price_formatted}}</span>
-            {{ } }}
-            ]]>
         </script>
     <?php endif; ?>
     <style>
