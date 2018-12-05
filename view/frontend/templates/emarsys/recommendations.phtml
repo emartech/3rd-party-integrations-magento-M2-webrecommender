@@ -39,17 +39,17 @@
         }
     </script>
     <?php if ($pageHandleData['logic'] != 'HOME_'): ?>
-        <div id="dept1"></div>
-        <div id="dept2"></div>
-        <div id="dept3"></div>
-        <div id="dept4"></div>
-        <div id="dept5"></div>
-        <div id="dept6"></div>
-        <div id="dept7"></div>
-        <div id="dept8"></div>
-        <div id="dept9"></div>
-        <div id="dept10"></div>
         <?php if ($pageHandleData['logic'] == 'DEPARTMENT'): ?>
+            <div id="dept1"></div>
+            <div id="dept2"></div>
+            <div id="dept3"></div>
+            <div id="dept4"></div>
+            <div id="dept5"></div>
+            <div id="dept6"></div>
+            <div id="dept7"></div>
+            <div id="dept8"></div>
+            <div id="dept9"></div>
+            <div id="dept10"></div>
             <script type="text/html" id="<?php echo $pageHandleData['templateId']; ?>">
                 <![CDATA[
                 <h4>{{=SC.title}}</h4>
@@ -79,7 +79,7 @@
                     }]);
                 }
             </script>
-        <?php endif; //if ($pageHandleData['logic'] == 'DEPARTMENT') ?>
+        <?php endif; ?>
 
         <?php if ($pageHandleData['logic'] != 'DEPARTMENT'): ?>
             <script type="text/html" id="<?php echo $pageHandleData['templateId']; ?>">
@@ -88,20 +88,21 @@
                 <div class="scarab-itemlist">
                     <div class="scarab-prev">◀</div>
                     {{ for (var i=0; i < SC.page.products.length; i++) { }}
-                    {{ var p = SC.page.products[i]; }}
-                    <span data-scarabitem="{{= p.id }}" class="scarab-item">
-                        <a href="{{= p.link }}">
-                            <img src="{{= p.image }}" class="rec-image" title="{{= p.title}}">
-                            {{= p.title }}
-                        </a>
-                    </span>
-                    <span id="format_{{=i}}">{{=p.price_formatted}}</span>
+                        {{ var p = SC.page.products[i]; }}
+                        <span data-scarabitem="{{= p.id }}" class="scarab-item">
+                            <a href="{{= p.link }}">
+                                <img src="{{= p.image }}" class="rec-image" title="{{= p.title}}">
+                                {{= p.title }}
+                            </a>
+                        </span>
+                        <span id="format_{{=i}}">{{=p.price_formatted}}</span>
                     {{ } }}
                     <div class="scarab-next">▶</div>
                 </div>
                 {{ } }}
                 ]]>
             </script>
+            <div id="recommended-product"></div>
             <script>
                 ScarabQueue.push(['recommend', {
                     logic: '<?php echo $pageHandleData["logic"]; ?>',
@@ -117,13 +118,20 @@
                     }
                 }]);
             </script>
-            <div id="recommended-product-container">
-                <div id="recommended-product"></div>
-            </div>
-        <?php endif; //if ($pageHandleData['logic'] != 'DEPARTMENT') ?>
-    <?php endif; //if ($pageHandleData['logic'] != 'HOME_') ?>
+        <?php endif; ?>
+    <?php endif; ?>
 
     <?php if ($pageHandleData['logic'] == "HOME_"): ?>
+        <div id="home1"></div>
+        <div id="home2"></div>
+        <div id="home3"></div>
+        <div id="home4"></div>
+        <div id="home5"></div>
+        <div id="home6"></div>
+        <div id="home7"></div>
+        <div id="home8"></div>
+        <div id="home9"></div>
+        <div id="home10"></div>
         <script>
             for (var i = 1; i < 11; i++) {
                 ScarabQueue.push(['recommend', {
@@ -141,18 +149,6 @@
                 }]);
             }
         </script>
-
-        <div id="home1"></div>
-        <div id="home2"></div>
-        <div id="home3"></div>
-        <div id="home4"></div>
-        <div id="home5"></div>
-        <div id="home6"></div>
-        <div id="home7"></div>
-        <div id="home8"></div>
-        <div id="home9"></div>
-        <div id="home10"></div>
-
         <script type="text/html" id="simple-tmpl">
             <![CDATA[
             <h4>{{=SC.title}}</h4>
@@ -165,7 +161,7 @@
             {{ } }}
             ]]>
         </script>
-    <?php endif; //if ($pageHandleData['logic'] == "HOME_") ?>
+    <?php endif; ?>
     <style>
         .rec-item {
             text-align: center;
