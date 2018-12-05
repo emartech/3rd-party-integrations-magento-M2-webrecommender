@@ -10,6 +10,36 @@
 <script>ScarabQueue.push(["cart", [<?php echo $block->getCartItemsJsonData() ?>]]);</script>
 <?php $pageHandleData = $block->getPageHandleStatus(); ?>
 <?php if ($pageHandleData['status'] == 'Valid' && $pageHandleData['logic'] != ''): ?>
+    <script type="text/javascript">
+        <![CDATA[
+        function localizePrice(SC) {
+            for (var i=0; i < SC.page.products.length; i++) {
+                SC['page']['products'][i].price_formatted = SC['page']['products'][i].price.toMoney(2, '.' , ',' ) ;
+            }
+        }
+
+        Number.prototype.toMoney = function(decimals, decimal_sep, thousands_sep) {
+            var n = this,
+                c = isNaN(decimals) ? 2 : Math.abs(decimals), //if decimal is zero we must take it, it means user does not want to show any decimal
+                d = decimal_sep || '.', //if no decimal separator is passed we use the dot as default decimal separator (we MUST use a decimal separator)
+
+                /*
+                according to [https://stackoverflow.com/questions/411352/how-best-to-determine-if-an-argument-is-not-sent-to-the-javascript-function]
+                the fastest way to check for not defined parameter is to use typeof value === 'undefined'
+                rather than doing value === undefined.
+                */
+                t = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep, //if you don't want to use a thousands separator you can pass empty string as thousands_sep value
+
+                sign = (n < 0) ? '-' : '',
+
+                //extracting the absolute value of the integer part of the number and converting to string
+                i = parseInt(n = Math.abs(n).toFixed(c)) + '',
+
+                j = ((j = i.length) > 3) ? j % 3 : 0;
+            return sign + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : '');
+        }
+        ]]>
+    </script>
     <?php if ($pageHandleData['logic'] != 'HOME_'): ?>
         <?php if ($pageHandleData['logic'] == 'DEPARTMENT'): ?>
             <div id="dept1"></div>
@@ -28,7 +58,11 @@
                 {{ for (var i=0; i < SC.page.products.length; i++) { }}
                 {{ var p = SC.page.products[i]; }}
                 <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
-                    <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image" title="{{= p.title}}"></a>
+                    <a href="{{=p.link}}" target="_blank">
+                        <img src="{{= p.image }}" class="rec-image" title="{{= p.title}}">
+                        {{= p.title }}
+                    </a>
+                    <span id="format_{{=i}}">{{=p.price_formatted}}</span>
                 </span>
                 {{ } }}
                 ]]>
@@ -43,6 +77,7 @@
                         success: function (SC, render) {
                             if (SC.topicLocalized) {
                                 SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
+                                localizePrice(SC);
                                 render(SC);
                             }
                         }
@@ -64,6 +99,7 @@
                             <img src="{{= p.image }}" class="rec-image" title="{{= p.title}}">
                             {{= p.title }}
                         </a>
+                        <span id="format_{{=i}}">{{=p.price_formatted}}</span>
                     </span>
                     {{ } }}
                     <div class="scarab-next">▶</div>
@@ -76,7 +112,14 @@
                     logic: '<?php echo $pageHandleData["logic"]; ?>',
                     containerId: 'recommended-product',
                     templateId: '<?php echo $pageHandleData['templateId']; ?>',
-                    limit: '6'
+                    limit: '6',
+                    success: function (SC, render) {
+                        if (SC.topicLocalized) {
+                            SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
+                            localizePrice(SC);
+                            render(SC);
+                        }
+                    }
                 }]);
             </script>
             <div id="recommended-product-container">
@@ -92,10 +135,11 @@
                     logic: '<?php echo $pageHandleData['logic'] ?>' + i,
                     limit: 6,
                     containerId: 'home' + i,
-                    templateId: '<?php echo $pageHandleData['templateId'] ?>',
+                    templateId: '',
                     success: function (SC, render) {
                         if (SC.topicLocalized) {
                             SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
+                            localizePrice(SC);
                             render(SC);
                         }
                     }
@@ -114,13 +158,17 @@
         <div id="home9"></div>
         <div id="home10"></div>
 
-        <script type="text/html" id="simple-tmpl">
+        <script type="text/html" id="<?php echo $pageHandleData['templateId'] ?>">
             <![CDATA[
             <h4>{{=SC.title}}</h4>
             {{ for (var i=0; i < SC.page.products.length; i++) { }}
             {{ var p = SC.page.products[i]; }}
             <span data-scarabitem="{{= p.id }}" style="display: inline-block" class="rec-item">
-                <a href="{{=p.link}}" target="_blank"><img src="{{=p.image}}" class="rec-image" title="{{= p.title}}"></a>
+                <a href="{{=p.link}}" target="_blank">
+                    <img src="{{= p.image }}" class="rec-image" title="{{= p.title}}">
+                    {{= p.title }}
+                </a>
+                <span id="format_{{=i}}">{{=p.price_formatted}}</span>
             </span>
             {{ } }}
             ]]>
