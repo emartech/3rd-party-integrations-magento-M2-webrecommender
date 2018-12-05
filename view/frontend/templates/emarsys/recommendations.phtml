@@ -107,6 +107,9 @@
                 {{ } }}
                 ]]>
             </script>
+            <div id="recommended-product-container">
+                <div id="recommended-product"></div>
+            </div>
             <script>
                 ScarabQueue.push(['recommend', {
                     logic: '<?php echo $pageHandleData["logic"]; ?>',
@@ -114,17 +117,11 @@
                     templateId: '<?php echo $pageHandleData['templateId']; ?>',
                     limit: '6',
                     success: function (SC, render) {
-                        if (SC.topicLocalized) {
-                            SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
-                            localizePrice(SC);
-                            render(SC);
-                        }
+                        localizePrice(SC);
+                        render(SC);
                     }
                 }]);
             </script>
-            <div id="recommended-product-container">
-                <div id="recommended-product"></div>
-            </div>
         <?php endif; //if ($pageHandleData['logic'] != 'DEPARTMENT') ?>
     <?php endif; //if ($pageHandleData['logic'] != 'HOME_') ?>
 
@@ -135,7 +132,7 @@
                     logic: '<?php echo $pageHandleData['logic'] ?>' + i,
                     limit: 6,
                     containerId: 'home' + i,
-                    templateId: '',
+                    templateId: '<?php echo $pageHandleData['templateId'] ?>',
                     success: function (SC, render) {
                         if (SC.topicLocalized) {
                             SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
