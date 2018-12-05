@@ -93,7 +93,6 @@
                     <span data-scarabitem="{{= p.id }}" class="scarab-item">
                         <a href="{{= p.link }}"><img src="{{= p.image }}" class="rec-image" title="{{= p.title}}">{{= p.title }}</a>
                     </span>
-                    <span id="format_{{=i}}">{{=p.price_formatted}}</span>
                     {{ } }}
                     <div class="scarab-next">▶</div>
                 </div>
@@ -105,14 +104,7 @@
                     logic: '<?php echo $pageHandleData["logic"]; ?>',
                     limit: '6',
                     containerId: 'recommended-product',
-                    templateId: '<?php echo $pageHandleData['templateId']; ?>',
-                    success: function (SC, render) {
-                        if (SC.topicLocalized) {
-                            SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
-                            localizePrice(SC);
-                            render(SC);
-                        }
-                    }
+                    templateId: '<?php echo $pageHandleData['templateId']; ?>'
                 }]);
             </script>
         <?php endif; ?>
