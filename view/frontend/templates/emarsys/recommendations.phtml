@@ -105,9 +105,16 @@
             <script>
                 ScarabQueue.push(['recommend', {
                     logic: '<?php echo $pageHandleData["logic"]; ?>',
+                    limit: '6',
                     containerId: 'recommended-product',
                     templateId: '<?php echo $pageHandleData['templateId']; ?>',
-                    limit: '6'
+                    success: function (SC, render) {
+                        if (SC.topicLocalized) {
+                            SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
+                            localizePrice(SC);
+                            render(SC);
+                        }
+                    }
                 }]);
             </script>
             <div id="recommended-product-container">
