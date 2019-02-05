@@ -67,19 +67,12 @@ class AjaxUpdate extends \Magento\Framework\App\Action\Action
                 'Emartech\EmarsysRecommender\Block\JavascriptTracking',
                 '',
                 ['full_action_name' => $this->getRequest()->getParam('full_action_name')]
-            )->setTemplate('Emartech_EmarsysRecommender::emarsys/javascripttracking.phtml');
-
-            $childBlock = $layout->createBlock(
-                'Emartech\EmarsysRecommender\Block\JavascriptTracking',
-                '',
-                ['full_action_name' => $this->getRequest()->getParam('full_action_name')]
             )->setTemplate('Emartech_EmarsysRecommender::emarsys/recommendations.phtml');
 
-            $parentBlock->setChild('emarsys.recommendations', $childBlock);
-
             $result['content'] = $parentBlock->toHtml();
-            $result['status'] = 1;
-
+            if (strlen($result['content'])) {
+                $result['status'] = 1;
+            }
 
             $this->getResponse()->setHeader('Content-type', 'application/json');
             $this->getResponse()->setBody($this->serializer->serialize($result));
