@@ -46,7 +46,7 @@ class RecommendedTaxRates
     public function toOptionArray()
     {
         $optionArray = [];
-        $optionArray[] = ['value' => -1, 'label' => 'Please choose Tax Rate'];
+        $optionArray[] = ['value' => 0, 'label' => 'Please choose Tax Rate'];
 
         $searchCriteria = $this->searchCriteriaBuilder
             ->setPageSize(100)

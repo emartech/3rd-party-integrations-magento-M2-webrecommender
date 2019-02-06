@@ -49,6 +49,7 @@
                 <field id="tax_rate" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Tax Rates</label>
                     <source_model>Emartech\EmarsysRecommender\Model\Config\Source\RecommendedTaxRates</source_model>
+                    <validate>validate-number validate-zero-or-greater</validate>
                 </field>
             </group>
         </section>
