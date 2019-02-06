@@ -328,7 +328,7 @@ class JavascriptTracking extends \Magento\Framework\View\Element\Template
     public function getTax()
     {
         $returnTax = 0;
-        $customTaxRate = $this->storeManager->getStore()->getConfig(self::XPATH_WEBEXTEND_CUSTOM_TAX);
+        $customTaxRate = $this->storeManager->getStore()->getConfig(self::XPATH_WEBEXTEND_CUSTOM_TAX_RATE);
         $taxRate = $this->storeManager->getStore()->getConfig(self::XPATH_WEBEXTEND_TAX_RATE);
 
         if ($taxRate != -1) {
