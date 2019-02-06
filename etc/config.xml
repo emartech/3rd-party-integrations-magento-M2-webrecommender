@@ -26,7 +26,7 @@
                 <tax_included>0</tax_included>
             </javascript_tracking>
             <recommended_product_taxes>
-                <custom_tax>0</custom_tax>
+                <custom_tax_rate>0</custom_tax_rate>
             </recommended_product_taxes>
         </web_extend>
         <track_ajax_cart>1</track_ajax_cart>
