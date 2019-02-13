@@ -52,7 +52,6 @@
                         success: function (SC, render) {
                             if (SC.topicLocalized) {
                                 SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
-                                localizePrice(SC);
                                 render(SC);
                             }
                         }
@@ -92,7 +91,6 @@
                     templateId: '<?php echo $pageHandleData['templateId']; ?>',
                     limit: '6',
                     success: function (SC, render) {
-                        localizePrice(SC);
                         render(SC);
                     }
                 }]);
@@ -111,7 +109,6 @@
                     success: function (SC, render) {
                         if (SC.topicLocalized) {
                             SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
-                            localizePrice(SC);
                             render(SC);
                         }
                     }
