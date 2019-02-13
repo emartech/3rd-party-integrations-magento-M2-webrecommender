@@ -16,8 +16,19 @@
     <div id="webextend-code"></div>
     <script>
         require([
-            'jquery'
-        ], function (jQuery) {
+            'jquery',
+            'Magento_Catalog/js/price-utils'
+        ], function (jQuery, priceUtils) {
+            "use strict";
+            debugger;
+            function localizePrice(SC) {
+                for (var i=0; i < SC.page.products.length; i++) {
+                    SC['page']['products'][i][storeCode] = priceUtils.formatPrice(SC['page']['products'][i][storeCode]);
+                }
+            }
+
+            window.localizePrice = localizePrice;
+
             jQuery.ajax({
                 url: '<?php echo $block->getAjaxUpdateUrl() ?>',
                 data: {

@@ -10,11 +10,6 @@
 <script>ScarabQueue.push(["cart", [<?php echo $block->getCartItemsJsonData() ?>]]);</script>
 <?php $pageHandleData = $block->getPageHandleStatus(); ?>
 <?php if ($pageHandleData['status'] == 'Valid' && $pageHandleData['logic'] != ''): ?>
-    <script type="text/javascript">
-        <![CDATA[
-        var storeCode = 'price_' + '<?php echo $block->getStoreCode(); ?>';
-        ]]>
-    </script>
     <?php if ($pageHandleData['logic'] != 'HOME_'): ?>
         <?php if ($pageHandleData['logic'] == 'DEPARTMENT'): ?>
             <div id="dept1"></div>
@@ -52,6 +47,8 @@
                         success: function (SC, render) {
                             if (SC.topicLocalized) {
                                 SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
+                                debugger;
+                                localizePrice(SC);
                                 render(SC);
                             }
                         }
@@ -91,6 +88,8 @@
                     templateId: '<?php echo $pageHandleData['templateId']; ?>',
                     limit: '6',
                     success: function (SC, render) {
+                        debugger;
+                        localizePrice(SC);
                         render(SC);
                     }
                 }]);
@@ -109,6 +108,8 @@
                     success: function (SC, render) {
                         if (SC.topicLocalized) {
                             SC.title = SC.topicLocalized.replace(/Root Catalog>/g, '');
+                            debugger;
+                            localizePrice(SC);
                             render(SC);
                         }
                     }
