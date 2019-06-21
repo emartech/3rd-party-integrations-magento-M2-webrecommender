@@ -32,6 +32,9 @@ class JavascriptTracking extends \Magento\Framework\View\Element\Template
     const XPATH_WEBEXTEND_USE_BASE_CURRENCY = 'web_extend/javascript_tracking/use_base_currency';
     const XPATH_WEBEXTEND_INCLUDE_TAX = 'web_extend/javascript_tracking/tax_included';
 
+    const XPATH_WEBEXTEND_CUSTOM_TAX_RATE = 'web_extend/recommended_product_taxes/custom_tax_rate';
+    const XPATH_WEBEXTEND_TAX_RATE = 'web_extend/recommended_product_taxes/tax_rate';
+
     const XPATH_TRACK_AJAX_CART = 'track_ajax_cart';
 
     /**
@@ -238,9 +241,6 @@ class JavascriptTracking extends \Magento\Framework\View\Element\Template
      */
     public function getStoreCode()
     {
-        if ($this->storeManager->getStore()->isDefault()) {
-            return '';
-        }
         return $this->storeManager->getStore()->getCode();
     }
 
@@ -312,4 +312,17 @@ class JavascriptTracking extends \Magento\Framework\View\Element\Template
         return $this->_request->getParam('q');
     }
 
+    public function getTax()
+    {
+        $customTaxRate = $this->storeManager->getStore()->getConfig(self::XPATH_WEBEXTEND_CUSTOM_TAX_RATE);
+        $taxRate = $this->storeManager->getStore()->getConfig(self::XPATH_WEBEXTEND_TAX_RATE);
+
+        if ($taxRate == 0) {
+            $returnTax = $customTaxRate;
+        } else {
+            $returnTax = $taxRate;
+        }
+
+        return $returnTax;
+    }
 }

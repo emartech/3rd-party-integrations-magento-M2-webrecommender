@@ -25,6 +25,10 @@
                 <use_base_currency>0</use_base_currency>
                 <tax_included>0</tax_included>
             </javascript_tracking>
+            <recommended_product_taxes>
+                <tax_rate>0</tax_rate>
+                <custom_tax_rate>0</custom_tax_rate>
+            </recommended_product_taxes>
         </web_extend>
     </default>
 </config>

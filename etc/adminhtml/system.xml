@@ -40,6 +40,18 @@
                     <source_model>Emartech\EmarsysRecommender\Model\Config\Source\RecommendedProductOnSearchPage</source_model>
                 </field>
             </group>
+            <group id="recommended_product_taxes" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="0">
+                <label>Taxes in Recommender</label>
+                <field id="custom_tax_rate" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Custom Tax</label>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+                <field id="tax_rate" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Tax Rates</label>
+                    <source_model>Emartech\EmarsysRecommender\Model\Config\Source\RecommendedTaxRates</source_model>
+                    <validate>validate-number validate-zero-or-greater</validate>
+                </field>
+            </group>
         </section>
     </system>
 </config>
